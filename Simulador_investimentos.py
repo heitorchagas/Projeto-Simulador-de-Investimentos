@@ -44,3 +44,5 @@ pci = percentual_cdi_na_lci()
 rfii = rentabilidade_fii()
 mf = meta_financeira()
 print('---' * 12)
+
+#restante
