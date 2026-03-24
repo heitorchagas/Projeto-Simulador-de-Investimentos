@@ -11,16 +11,37 @@ import locale
 
 # Entradas obrigatórias (utilizei def e mandei imprimir em seguida)
 def capital_inicial():
-    ci = int(input('Capital Inicial (R$): '))
-    return ci
+    while True:
+        try:
+            ci = int(input('Capital Inicial (R$): '))
+            if ci < 0:
+                print('insira um valor positivo')
+                continue
+            return ci
+        except ValueError:
+            print('Digita um valor válido')
 
 def aporte_mensal():
-    am = int(input('Aporte Mensal (R$): '))
-    return am
+    while True:
+        try:
+            am = int(input('Aporte Mensal (R$): '))
+            if am < 0:
+                print('Insira um valor positivo')
+                continue
+            return am
+        except ValueError:
+            print('Insira um valor válido')
 
 def prazo_meses():
-    pm = int(input('Prazo (meses): '))
-    return pm
+    while True:
+        try:
+            pm = int(input('Prazo (meses): '))
+            if pm < 0:
+                print('Insira um valor positivo')
+                continue
+            return pm
+        except ValueError:
+            print('Insira um valor válido')
 
 def cdi_anual():
     ca = float(input('CDI Anual(%): '))
@@ -31,7 +52,7 @@ def percentual_cdi_no_cdb():
     return pcc
 
 def percentual_cdi_na_lci():
-    pci = int(input('Percentual CDI na LCA (%): '))
+    pci = int(input('Percentual CDI na LCI (%): '))
     return pci
 
 def rentabilidade_fii():
@@ -41,6 +62,8 @@ def rentabilidade_fii():
 def meta_financeira():
     mf = int(input('Meta Financeira (R$): '))
     return mf
+
+
 print('---' * 12)
 ci = capital_inicial()
 am = aporte_mensal()
