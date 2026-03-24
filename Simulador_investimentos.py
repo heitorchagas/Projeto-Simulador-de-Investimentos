@@ -5,31 +5,42 @@ import datetime
 import statistics
 import locale
 
-# Definições de variáveis (def)
+# Definições de variáveis que precisamos (def)
 
 
 
-# Entradas obrigatórias
+# Entradas obrigatórias (utilizei def e mandei imprimir em seguida)
 def capital_inicial():
-    int(input('Capital Inicial (R$): '))
+    ci = int(input('Capital Inicial (R$): '))
 
 def aporte_mensal():
-    int(input('Aporte Mensal (R$): '))
+    am = int(input('Aporte Mensal (R$): '))
 
 def prazo_meses():
-    int(input('Prazo (meses): '))
+    pm = int(input('Prazo (meses): '))
 
 def cdi_anual():
-    float(input('CDI Anual(%): '))
+    ca = float(input('CDI Anual(%): '))
 
 def percentual_cdi_no_cdb():
-    int(input('Percentual CDI no CDB (%): '))
+    pcc = int(input('Percentual CDI no CDB (%): '))
 
 def percentual_cdi_na_lci():
-    int(input('Percentual CDI na LCA (%): '))
+    pci = int(input('Percentual CDI na LCA (%): '))
 
 def rentabilidade_fii():
-    float(input('Rentabilidade FII (%): '))
+    rfii = float(input('Rentabilidade FII (%): '))
 
 def meta_financeira():
-    int(input('Meta Financeira (R$): '))
+    mf = int(input('Meta Financeira (R$): '))
+
+print('---' * 12)
+ci = capital_inicial()
+am = aporte_mensal()
+pm = prazo_meses()
+ca = cdi_anual()
+pcc = percentual_cdi_no_cdb()
+pci = percentual_cdi_na_lci()
+rfii = rentabilidade_fii()
+mf = meta_financeira()
+print('---' * 12)
