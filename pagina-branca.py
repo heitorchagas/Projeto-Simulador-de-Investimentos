@@ -33,4 +33,3 @@ def rentabilidade_fii():
 
 def meta_financeira():
     int(input('Meta Financeira (R$): '))
-
