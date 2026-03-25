@@ -44,25 +44,60 @@ def prazo_meses():
             print('Insira um valor válido')
 
 def cdi_anual():
-    ca = float(input('CDI Anual(%): '))
-    return ca
+    while True:
+        try:
+            ca = float(input('CDI Anual(%): '))
+            if ca < 0:
+                print('Insira um valor positivo')
+                continue
+            return ca
+        except ValueError:
+            print('Insira um valor válido')
 
 def percentual_cdi_no_cdb():
-    pcc = int(input('Percentual CDI no CDB (%): '))
-    return pcc
+    while True:
+        try:
+            pcc = int(input('Percentual CDI no CDB (%): '))
+            if pcc < 0:
+                print('Insira um valor positivo')
+                continue
+            return pcc
+        except ValueError:
+            print('Insira um valor válido')
+    
 
 def percentual_cdi_na_lci():
-    pci = int(input('Percentual CDI na LCI (%): '))
-    return pci
+    while True:
+        try:
+            pci = int(input('Percentual CDI no CDB (%): '))
+            if pci < 0:
+                print('Insira um valor positivo')
+                continue
+            return pci
+        except ValueError:
+            print('Insira um valor válido')
 
 def rentabilidade_fii():
-    rfii = float(input('Rentabilidade FII (%): '))
-    return rfii
+    while True:
+        try:
+            rfii = int(input('Percentual CDI no CDB (%): '))
+            if rfii < 0:
+                print('Insira um valor positivo')
+                continue
+            return rfii
+        except ValueError:
+            print('Insira um valor válido')
 
 def meta_financeira():
-    mf = int(input('Meta Financeira (R$): '))
-    return mf
-
+    while True:
+        try:
+            mf = int(input('Percentual CDI no CDB (%): '))
+            if mf < 0:
+                print('Insira um valor positivo')
+                continue
+            return mf
+        except ValueError:
+            print('Insira um valor válido')
 
 print('---' * 12)
 ci = capital_inicial()
