@@ -2,11 +2,21 @@
 import math
 import random
 import datetime
+from datetime import date
 import statistics
 import locale
 
 # Definições de variáveis que precisamos (def)
 
+def relatorio_data():
+    data = datetime.date.today()
+    return data.strftime('%d/%m/%Y')
+def data_estimada(pm):
+    hoje = date.today()
+    mes0 = hoje.month + pm
+    ano = hoje.year + (pm - 1) // 12
+    mes1 = (mes0 - 1) % 12 + 1
+    return date(ano, mes1, hoje.day).strftime('%d/%m/%Y')
 
 
 # Entradas obrigatórias (utilizei def e mandei imprimir em seguida)
@@ -69,7 +79,7 @@ def percentual_cdi_no_cdb():
 def percentual_cdi_na_lci():
     while True:
         try:
-            pci = int(input('Percentual CDI no CDB (%): '))
+            pci = int(input('Percentual CDI na LCI (%): '))
             if pci < 0:
                 print('Insira um valor positivo')
                 continue
@@ -80,7 +90,7 @@ def percentual_cdi_na_lci():
 def rentabilidade_fii():
     while True:
         try:
-            rfii = int(input('Percentual CDI no CDB (%): '))
+            rfii = int(input('Rentabilidade (%): '))
             if rfii < 0:
                 print('Insira um valor positivo')
                 continue
@@ -91,7 +101,7 @@ def rentabilidade_fii():
 def meta_financeira():
     while True:
         try:
-            mf = int(input('Percentual CDI no CDB (%): '))
+            mf = int(input('Meta Financeira (R$): '))
             if mf < 0:
                 print('Insira um valor positivo')
                 continue
@@ -109,4 +119,11 @@ pci = percentual_cdi_na_lci()
 rfii = rentabilidade_fii()
 mf = meta_financeira()
 print('---' * 12)
-#restante
+
+# Impressão do relatório
+
+    # data do relatório pyinvest
+data_relatorio = relatorio_data()
+print(f'Data do relatório - {data_relatorio}')
+resgate = data_estimada(pm)
+print(f'Data estimada de resgate - {resgate}')
