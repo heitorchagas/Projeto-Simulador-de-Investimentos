@@ -13,10 +13,9 @@ def relatorio_data():
     return data.strftime('%d/%m/%Y')
 def data_estimada(pm):
     hoje = date.today()
-    mes0 = hoje.month + pm
-    ano = hoje.year + (pm - 1) // 12
-    mes1 = (mes0 - 1) % 12 + 1
-    return date(ano, mes1, hoje.day).strftime('%d/%m/%Y')
+    dias = pm * 30
+    resgate = hoje + datetime.timedelta(days=dias)
+    return resgate.strftime('%d/%m/%Y')
 
 
 # Entradas obrigatórias (utilizei def e mandei imprimir em seguida)
@@ -90,7 +89,7 @@ def percentual_cdi_na_lci():
 def rentabilidade_fii():
     while True:
         try:
-            rfii = int(input('Rentabilidade (%): '))
+            rfii = float(input('Rentabilidade FII (%): '))
             if rfii < 0:
                 print('Insira um valor positivo')
                 continue
@@ -140,8 +139,8 @@ def calcular_aliquota(meses):
 # Calcular CDB
 def cdb(capital, aporte, meses, ca, pcc):
     taxa_mensal = CDIanualMensal(ca) * (pcc / 100)
+    montante = capital * math.pow(1 + taxa_mensal, meses) + aporte * (math.pow(1 + taxa_mensal, meses) - 1) / taxa_mensal
     total_investido = totalInvestido(capital, aporte, meses)
-    montante = total_investido * math.pow(1 + taxa_mensal, meses)
     lucro = montante - total_investido
     aliquota = calcular_aliquota(meses)
     imposto = lucro * aliquota
@@ -151,28 +150,26 @@ def cdb(capital, aporte, meses, ca, pcc):
 # Calcular LCI
 def lci(capital, aporte, meses, ca, pci):
     taxa_mensal = CDIanualMensal(ca) * (pci / 100)
-    total_investido = totalInvestido(capital, aporte, meses)
-    montante = total_investido * math.pow(1 + taxa_mensal, meses)
+    montante = capital * math.pow(1 + taxa_mensal, meses) + aporte * (math.pow(1 + taxa_mensal, meses) - 1) / taxa_mensal
     return montante
     
 # Calcular poupança
 def poupanca(capital, aporte, meses):
     taxa_mensal = 0.005
-    total_investido = totalInvestido(capital, aporte, meses)
-    montante = total_investido * math.pow(1 + taxa_mensal, meses)
+    montante = capital * math.pow(1 + taxa_mensal, meses) + aporte * (math.pow(1 + taxa_mensal, meses) - 1) / taxa_mensal
     return montante
     
 # Calcular FII com a simulação
 def calcular_fii(capital, aporte, meses, rfii):
     taxa_mensal = rfii / 100
-    total_investido = totalInvestido(capital, aporte, meses)
+    base = capital * math.pow(1 + taxa_mensal, meses) + aporte * (math.pow(1 + taxa_mensal, meses) - 1) / taxa_mensal
     
     # 5 simulações independentes
-    sim1 = total_investido * math.pow(1 + taxa_mensal, meses) * (1 + random.uniform(-0.03, 0.03))
-    sim2 = total_investido * math.pow(1 + taxa_mensal, meses) * (1 + random.uniform(-0.03, 0.03))
-    sim3 = total_investido * math.pow(1 + taxa_mensal, meses) * (1 + random.uniform(-0.03, 0.03))
-    sim4 = total_investido * math.pow(1 + taxa_mensal, meses) * (1 + random.uniform(-0.03, 0.03))
-    sim5 = total_investido * math.pow(1 + taxa_mensal, meses) * (1 + random.uniform(-0.03, 0.03))
+    sim1 = base * (1 + random.uniform(-0.03, 0.03))
+    sim2 = base * (1 + random.uniform(-0.03, 0.03))
+    sim3 = base * (1 + random.uniform(-0.03, 0.03))
+    sim4 = base * (1 + random.uniform(-0.03, 0.03))
+    sim5 = base * (1 + random.uniform(-0.03, 0.03))
     
     simulacoes = [sim1, sim2, sim3, sim4, sim5]
     
@@ -232,12 +229,11 @@ metas_atingidas = 0
 valores = [valor_cdb, valor_lci, valor_poup, valor_fii]
 labels  = ['CDB', 'LCI/LCA', 'Poupança', 'FII']
 
-for i in range(len(valores)):
-    if valores[i] >= mf:
-        print(f'{labels[i]}: atingiu a meta ')
-        metas_atingidas += 1
-if metas_atingidas == 0:
-    print('Nenhum investimento atingiu a meta')
+meta_cdb = 'Sim' if valor_cdb >= mf else 'Não'
+meta_lci = 'Sim' if valor_lci >= mf else 'Não'
+meta_poup = 'Sim' if valor_poup >= mf else 'Não'
+meta_fii = 'Sim' if valor_fii >= mf else 'Não'
+print(f"Meta atingida? {meta_cdb or meta_lci or meta_poup or meta_fii}")
 
 # ---------------- MELHOR INVESTIMENTO ----------------
 
