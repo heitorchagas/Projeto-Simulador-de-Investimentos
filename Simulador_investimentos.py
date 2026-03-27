@@ -1,4 +1,5 @@
 # Grupo 7: Heitor Chagas, Bruno Rosa e João Vitor
+# GitHub: https://github.com/heitorchagas/Projeto-Simulador-de-Investimentos
 
 # Importações de bibliotecas necessárias
 import math
