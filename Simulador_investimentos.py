@@ -109,6 +109,79 @@ def meta_financeira():
         except ValueError:
             print('Insira um valor válido')
 
+
+#------------- Cálculos ---------------
+
+# Convertendo CDI anual para mensal
+def CDIanualMensal(ca):
+    cm = math.pow(1 + ca / 100, 1 / 12) - 1
+    return cm
+
+# Calculando o total investido
+def totalInvestido(capital, aporte, meses):
+    total_Investido = capital + (aporte * meses)
+    return total_Investido
+
+# Calcular os dias
+def calcular_aliquota(meses):
+    dias = meses * 30
+    if dias <= 180:
+        return 0.225
+    
+    elif dias <= 360:
+        return 0.2
+    
+    elif dias <= 720:
+        return 0.175
+    
+    else:
+        return 0.15
+
+# Calcular CDB
+def cdb(capital, aporte, meses, ca, pcc):
+    taxa_mensal = CDIanualMensal(ca) * (pcc / 100)
+    total_investido = totalInvestido(capital, aporte, meses)
+    montante = total_investido * math.pow(1 + taxa_mensal, meses)
+    lucro = montante - total_investido
+    aliquota = calcular_aliquota(meses)
+    imposto = lucro * aliquota
+    valor_liq = montante - imposto
+    return valor_liq
+    
+# Calcular LCI
+def lci(capital, aporte, meses, ca, pci):
+    taxa_mensal = CDIanualMensal(ca) * (pci / 100)
+    total_investido = totalInvestido(capital, aporte, meses)
+    montante = total_investido * math.pow(1 + taxa_mensal, meses)
+    return montante
+    
+# Calcular poupança
+def poupanca(capital, aporte, meses):
+    taxa_mensal = 0.005
+    total_investido = totalInvestido(capital, aporte, meses)
+    montante = total_investido * math.pow(1 + taxa_mensal, meses)
+    return montante
+    
+# Calcular FII com a simulação
+def calcular_fii(capital, aporte, meses, rfii):
+    taxa_mensal = rfii / 100
+    total_investido = totalInvestido(capital, aporte, meses)
+    
+    # 5 simulações independentes
+    sim1 = total_investido * math.pow(1 + taxa_mensal, meses) * (1 + random.uniform(-0.03, 0.03))
+    sim2 = total_investido * math.pow(1 + taxa_mensal, meses) * (1 + random.uniform(-0.03, 0.03))
+    sim3 = total_investido * math.pow(1 + taxa_mensal, meses) * (1 + random.uniform(-0.03, 0.03))
+    sim4 = total_investido * math.pow(1 + taxa_mensal, meses) * (1 + random.uniform(-0.03, 0.03))
+    sim5 = total_investido * math.pow(1 + taxa_mensal, meses) * (1 + random.uniform(-0.03, 0.03))
+    
+    simulacoes = [sim1, sim2, sim3, sim4, sim5]
+    
+    media = statistics.mean(simulacoes)
+    mediana = statistics.median(simulacoes)
+    desvio = statistics.stdev(simulacoes)
+    
+    return media, mediana, desvio
+
 print('---' * 12)
 ci = capital_inicial()
 am = aporte_mensal()
