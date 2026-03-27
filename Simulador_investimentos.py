@@ -229,21 +229,14 @@ print(f'Desvio padrão: {locale.currency(desvio_fii, grouping=True)}')
 print('\nMeta financeira:')
 metas_atingidas = 0
 
-print('Atingiu a meta ?')
-if valor_cdb >= mf:
-    print('CDB atingiu a meta')
-    metas_atingidas += 1
-elif valor_lci >= mf:
-    print('LCI atingiu a meta')
-    metas_atingidas += 1
-elif valor_poup >= mf:
-    print('Poupança atingiu a meta')
-    metas_atingidas += 1
-elif valor_fii >= mf:
-    print('FII atingiu a meta')
-    metas_atingidas += 1
+valores = [valor_cdb, valor_lci, valor_poup, valor_fii]
+labels  = ['CDB', 'LCI/LCA', 'Poupança', 'FII']
 
-elif metas_atingidas == 0:
+for i in range(len(valores)):
+    if valores[i] >= mf:
+        print(f'{labels[i]}: atingiu a meta ')
+        metas_atingidas += 1
+if metas_atingidas == 0:
     print('Nenhum investimento atingiu a meta')
 
 # ---------------- MELHOR INVESTIMENTO ----------------
