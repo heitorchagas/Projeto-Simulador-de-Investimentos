@@ -1,3 +1,5 @@
+# Grupo 7: Heitor Chagas, Bruno Rosa e João Vitor
+
 # Importações de bibliotecas necessárias
 import math
 import random
