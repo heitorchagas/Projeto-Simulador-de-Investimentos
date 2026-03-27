@@ -29,7 +29,7 @@ def capital_inicial():
                 continue
             return ci
         except ValueError:
-            print('Digita um valor válido')
+            print('Insira um valor válido')
 
 def aporte_mensal():
     while True:
@@ -182,7 +182,8 @@ def calcular_fii(capital, aporte, meses, rfii):
     
     return media, mediana, desvio
 
-print('---' * 12)
+# Atribuição e chamamento de variáveis
+print('==' * 12, 'SIMULADOR DE INVESTIMENTOS', '==' * 12)
 ci = capital_inicial()
 am = aporte_mensal()
 pm = prazo_meses()
@@ -191,12 +192,86 @@ pcc = percentual_cdi_no_cdb()
 pci = percentual_cdi_na_lci()
 rfii = rentabilidade_fii()
 mf = meta_financeira()
-print('---' * 12)
+total_inv = totalInvestido(ci, am, pm)
+valor_cdb = cdb(ci, am, pm, ca, pcc)
+valor_lci = lci(ci, am, pm, ca, pci)
+valor_poup = poupanca(ci, am, pm)
+valor_fii, mediana_fii, desvio_fii = calcular_fii(ci, am, pm, rfii)
+
 
 # Impressão do relatório
+# Configurar moeda brasileira
+locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
 
-    # data do relatório pyinvest
+    # data do relatório
+print('==' * 10, 'RELATÓRIO', '==' * 10)
 data_relatorio = relatorio_data()
 print(f'Data do relatório - {data_relatorio}')
 resgate = data_estimada(pm)
 print(f'Data estimada de resgate: {resgate}')
+
+print('\nTotal investido:')
+print(locale.currency(total_inv, grouping=True))
+
+print('\nResultados finais:')
+
+print(f'CDB: {locale.currency(valor_cdb, grouping=True)}')
+print(f'LCI/LCA: {locale.currency(valor_lci, grouping=True)}')
+print(f'Poupança: {locale.currency(valor_poup, grouping=True)}')
+print(f'FII (média): {locale.currency(valor_fii, grouping=True)}')
+
+print('\nEstatísticas do FII:')
+print(f'Mediana: {locale.currency(mediana_fii, grouping=True)}')
+print(f'Desvio padrão: {locale.currency(desvio_fii, grouping=True)}')
+
+# ---------------- META ----------------
+
+print('\nMeta financeira:')
+metas_atingidas = 0
+
+print('Atingiu a meta ?')
+if valor_cdb >= mf:
+    print('CDB atingiu a meta')
+    metas_atingidas += 1
+elif valor_lci >= mf:
+    print('LCI atingiu a meta')
+    metas_atingidas += 1
+elif valor_poup >= mf:
+    print('Poupança atingiu a meta')
+    metas_atingidas += 1
+elif valor_fii >= mf:
+    print('FII atingiu a meta')
+    metas_atingidas += 1
+
+elif metas_atingidas == 0:
+    print('Nenhum investimento atingiu a meta')
+
+# ---------------- MELHOR INVESTIMENTO ----------------
+
+melhor = max(valor_cdb, valor_lci, valor_poup, valor_fii)
+
+print('\nMelhor investimento:')
+
+if melhor == valor_cdb:
+    print(f'CDB: {locale.currency(valor_cdb, grouping=True)}')
+elif melhor == valor_lci:
+    print(f'LCI/LCA: {locale.currency(valor_lci, grouping=True)}')
+elif melhor == valor_poup:
+    print(f'Poupança: {locale.currency(valor_poup, grouping=True)}')
+else:
+    print(f'FII: {locale.currency(valor_fii, grouping=True)}')
+
+
+# ---------------- GRÁFICO ----------------
+maior = melhor
+
+def barra(valor):
+    tamanho = int((valor / maior) * 50)
+    return '█' * tamanho
+
+print(f'CDB      | {barra(valor_cdb)}')
+print(f'LCI/LCA  | {barra(valor_lci)}')
+print(f'Poupança | {barra(valor_poup)}')
+print(f'FII      | {barra(valor_fii)}')
+
+print('===' * 18)
